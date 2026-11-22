@@ -1,14 +1,5 @@
 # medical-bill-auditor
 
-**Checks itemized medical bills for likely billing errors, using Medicare's public rules and the hospital's own published prices.**
-
-![Status](https://img.shields.io/badge/status-in%20development-orange)
-![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-![DuckDB](https://img.shields.io/badge/DuckDB-FFF000?logo=duckdb&logoColor=black)
-![Ollama](https://img.shields.io/badge/Ollama-local%20LLM-000000?logo=ollama&logoColor=white)
-
-> **Work in progress.** This project is being built in phases. The foundations and the Medicare reference data are in place; bill reading, the error checks and the dispute letter come next.
-
 ## The problem
 
 Hospital bills are long lists of codes and prices that most patients can't check. Common errors include duplicate charges, one procedure split into several billed parts, impossible quantities, and prices that don't match the hospital's own price list.
