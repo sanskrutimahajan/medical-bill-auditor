@@ -16,6 +16,7 @@ This is a portfolio project. Correct, honest, measured results matter more than 
 - **Never claim a result without running it.** The Phase 3 test split stays locked until Phase 8.
 - **No AMA CPT or ADA CDT descriptions, and no NUBC revenue-code tables** (ADR-002). Codes are stored as identifiers only. Never accept a license on cms.gov for the user; the user downloads license-gated files.
 - **v1 scope:** self-pay patients with itemized bills. Insurer EOBs are out of scope.
+- **No arbitrary choices.** Before adding a library, data store, pattern or method, state the alternatives, what would happen with each, why this one fits, the trade-off, and when to revisit it. Record anything non-trivial in `docs/decisions/` (see ADR-003 for the format). Label convenience choices honestly. The user must be able to defend every decision.
 
 ## Engineering principles (checked at every phase handoff)
 
