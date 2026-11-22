@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1210 700" width="1210" height="700" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>medical-bill-auditor architecture</title>
+  <desc>A fixed pipeline: an itemized bill is loaded, its line items are extracted, a rule engine checks them against CMS reference data and hospital price files, and a report and dispute letter are written for the patient. Tracing covers every stage; an evaluation set of synthetic bills scores each stage.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#57606A"/></marker>
+    <marker id="arr-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1A7F64"/></marker>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000" flood-opacity="0.12"/></filter>
+    <style>
+      .title { font-size: 20px; font-weight: 700; fill: #1F2328; }
+      .sub   { font-size: 12.5px; fill: #57606A; }
+      .h     { font-size: 14px; font-weight: 700; fill: #1F2328; text-anchor: middle; }
+      .l     { font-size: 11.5px; fill: #424A53; text-anchor: middle; }
+      .ll    { font-size: 11.5px; fill: #424A53; }
+      .ph    { font-size: 12.5px; font-weight: 700; fill: #1F2328; }
+      .pill  { font-size: 10.5px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+      .note  { font-size: 11px; fill: #57606A; font-style: italic; text-anchor: middle; }
+      .built   { fill: #FFFFFF; stroke: #1A7F64; stroke-width: 2; }
+      .planned { fill: #FFFFFF; stroke: #8C959F; stroke-width: 1.5; stroke-dasharray: 6 4; }
+      .io      { fill: #EEF4FB; stroke: #2E73B8; stroke-width: 1.5; }
+      .panel   { fill: #F6F8FA; stroke: #D0D7DE; stroke-width: 1.2; }
+      .flow    { stroke: #57606A; stroke-width: 1.8; fill: none; }
+      .flowd   { stroke: #57606A; stroke-width: 1.5; fill: none; stroke-dasharray: 5 4; }
+      .tile    { filter: url(#sh); }
+    </style>
+  </defs>
+
+  <rect width="1210" height="700" rx="14" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="34" y="44" class="title">medical-bill-auditor</text>
+  <text x="34" y="66" class="sub">A fixed pipeline, not an agent. The language model writes text in two places; every rule, number and comparison is computed in code.</text>
+
+  <!-- ===== Row 1: the pipeline ===== -->
+  <!-- 0 Bill -->
+  <g class="tile"><rect x="34" y="100" width="164" height="136" rx="10" class="io"/></g>
+  <text x="116" y="134" class="h">Itemized bill</text>
+  <text x="116" y="160" class="l">PDF or photo,</text>
+  <text x="116" y="177" class="l">uploaded by the patient</text>
+  <text x="116" y="194" class="l">(self-pay, v1)</text>
+
+  <!-- 1 Load -->
+  <g class="tile"><rect x="226" y="100" width="170" height="136" rx="10" class="built"/></g>
+  <text x="311" y="134" class="h">1. Load input</text>
+  <text x="311" y="160" class="l">type, size and PDF checks</text>
+  <text x="311" y="177" class="l">SHA-256 fingerprint</text>
+  <text x="311" y="194" class="l">Ok or a typed error</text>
+  <rect x="266" y="207" width="90" height="19" rx="9.5" fill="#DAFBE1"/><text x="311" y="216.5" class="pill" fill="#1A7F64">BUILT</text>
+
+  <!-- 2 Extract -->
+  <g class="tile"><rect x="424" y="100" width="170" height="136" rx="10" class="planned"/></g>
+  <text x="509" y="134" class="h">2. Extract</text>
+  <text x="509" y="160" class="l">pdfplumber and OCR</text>
+  <text x="509" y="177" class="l">local LLM for messy layouts</text>
+  <text x="509" y="194" class="l">schema-validated line items</text>
+  <rect x="454" y="207" width="110" height="19" rx="9.5" fill="#EAEEF2"/><text x="509" y="216.5" class="pill" fill="#57606A">PLANNED · PH 4</text>
+
+  <!-- 3 Audit -->
+  <g class="tile"><rect x="622" y="100" width="170" height="136" rx="10" class="planned"/></g>
+  <text x="707" y="134" class="h">3. Audit engine</text>
+  <text x="707" y="160" class="l">rules in code, no LLM</text>
+  <text x="707" y="177" class="l">NCCI pairs, MUE units,</text>
+  <text x="707" y="194" class="l">duplicates, dates, prices</text>
+  <rect x="652" y="207" width="110" height="19" rx="9.5" fill="#EAEEF2"/><text x="707" y="216.5" class="pill" fill="#57606A">PLANNED · PH 5</text>
+
+  <!-- 4 Explain -->
+  <g class="tile"><rect x="820" y="100" width="170" height="136" rx="10" class="planned"/></g>
+  <text x="905" y="134" class="h">4. Explain</text>
+  <text x="905" y="160" class="l">plain-language report</text>
+  <text x="905" y="177" class="l">draft dispute letter</text>
+  <text x="905" y="194" class="l">claims checked vs. findings</text>
+  <rect x="850" y="207" width="110" height="19" rx="9.5" fill="#EAEEF2"/><text x="905" y="216.5" class="pill" fill="#57606A">PLANNED · PH 6</text>
+
+  <!-- 5 Patient -->
+  <g class="tile"><rect x="1018" y="100" width="158" height="136" rx="10" class="io"/></g>
+  <text x="1097" y="134" class="h">Patient</text>
+  <text x="1097" y="160" class="l">findings with citations</text>
+  <text x="1097" y="177" class="l">a letter they choose</text>
+  <text x="1097" y="194" class="l">to send themselves</text>
+
+  <!-- Row 1 arrows -->
+  <line x1="198" y1="168" x2="222" y2="168" class="flow" marker-end="url(#arr)"/>
+  <line x1="396" y1="168" x2="420" y2="168" class="flow" marker-end="url(#arr)"/>
+  <line x1="594" y1="168" x2="618" y2="168" class="flow" marker-end="url(#arr)"/>
+  <line x1="792" y1="168" x2="816" y2="168" class="flow" marker-end="url(#arr)"/>
+  <line x1="990" y1="168" x2="1014" y2="168" class="flow" marker-end="url(#arr)"/>
+
+  <!-- LLM markers -->
+  <text x="509" y="92" class="note">LLM, constrained to a schema</text>
+  <text x="905" y="92" class="note">LLM, writes from findings only</text>
+
+  <!-- ===== Row 2: data ===== -->
+  <!-- Data intake -->
+  <g class="tile"><rect x="34" y="318" width="210" height="176" rx="10" class="built"/></g>
+  <text x="139" y="350" class="h">Data intake</text>
+  <text x="139" y="376" class="l">pinned CMS releases</text>
+  <text x="139" y="393" class="l">MANIFEST.tsv checksums</text>
+  <text x="139" y="410" class="l">pandera validation</text>
+  <text x="139" y="427" class="l">atomic build: all or nothing</text>
+  <rect x="94" y="458" width="90" height="19" rx="9.5" fill="#DAFBE1"/><text x="139" y="467.5" class="pill" fill="#1A7F64">BUILT</text>
+
+  <line x1="244" y1="406" x2="290" y2="406" class="flow" marker-end="url(#arr-teal)" stroke="#1A7F64"/>
+
+  <!-- Reference data panel -->
+  <g class="tile"><rect x="294" y="290" width="604" height="232" rx="12" class="panel"/></g>
+  <text x="596" y="318" class="h">Reference data · DuckDB (read-only during an audit)</text>
+
+  <!-- CMS column -->
+  <rect x="312" y="334" width="300" height="172" rx="9" class="built"/>
+  <text x="326" y="358" class="ph">CMS rules and prices · Phase 1</text>
+  <circle cx="331" cy="381" r="4" fill="#1A7F64"/><text x="343" y="385" class="ll">HCPCS Level II and ICD-10-CM codes</text>
+  <circle cx="331" cy="403" r="4" fill="#1A7F64"/><text x="343" y="407" class="ll">MUE unit limits (hospital, practitioner)</text>
+  <circle cx="331" cy="425" r="4" fill="#1A7F64"/><text x="343" y="429" class="ll">Physician fee schedule + Boston GPCIs</text>
+  <circle cx="331" cy="447" r="4" fill="none" stroke="#9A6700" stroke-width="1.6"/><text x="343" y="451" class="ll">NCCI pair edits, OPPS, lab fees</text>
+  <text x="343" y="467" class="ll" fill="#9A6700">(AMA-licensed: user downloads)</text>
+  <text x="326" y="493" class="ll" font-size="10.5">Every lookup returns a citation: dataset, release, row.</text>
+
+  <!-- Hospital prices column -->
+  <rect x="630" y="334" width="250" height="172" rx="9" class="planned"/>
+  <text x="644" y="358" class="ph">Hospital price files · Phase 2</text>
+  <text x="644" y="385" class="ll">3–5 Boston-area hospitals</text>
+  <text x="644" y="407" class="ll">gross, cash and negotiated</text>
+  <text x="644" y="423" class="ll">rates per service</text>
+  <text x="644" y="445" class="ll">multi-GB files, streamed</text>
+  <text x="644" y="461" class="ll">and frozen with checksums</text>
+
+  <!-- reference -> audit / extract -->
+  <path d="M707,290 L707,240" class="flow" marker-end="url(#arr)"/>
+  <text x="716" y="270" class="ll" font-size="10.5">rules, limits, prices</text>
+  <path d="M509,290 L509,240" class="flowd" marker-end="url(#arr)"/>
+  <text x="518" y="270" class="ll" font-size="10.5">code checks</text>
+
+  <!-- Evaluation -->
+  <g class="tile"><rect x="926" y="318" width="250" height="176" rx="10" class="planned"/></g>
+  <text x="1051" y="350" class="h">Evaluation</text>
+  <text x="1051" y="376" class="l">~300 synthetic bills with</text>
+  <text x="1051" y="393" class="l">planted errors, clean bills</text>
+  <text x="1051" y="410" class="l">and prompt-injection attempts</text>
+  <text x="1051" y="427" class="l">locked test split, 3 runs per case</text>
+  <rect x="981" y="458" width="140" height="19" rx="9.5" fill="#EAEEF2"/><text x="1051" y="467.5" class="pill" fill="#57606A">PLANNED · PH 3, 8</text>
+  <path d="M1051,318 L1051,262 L905,262 L905,240" class="flowd" marker-end="url(#arr)"/>
+  <text x="1060" y="290" class="ll" font-size="10.5">scores every stage</text>
+
+  <!-- ===== Row 3: tracing ===== -->
+  <g class="tile"><rect x="34" y="548" width="1142" height="62" rx="10" class="built"/></g>
+  <text x="56" y="574" class="ph">Tracing, across every stage</text>
+  <text x="56" y="594" class="ll">Each stage, LLM call (prompt version, tokens, latency), rule hit and error goes to one JSON-lines trace per run · p50 / p95 latency · failed stages stop the run with a readable error</text>
+  <rect x="1066" y="569" width="90" height="19" rx="9.5" fill="#DAFBE1"/><text x="1111" y="578.5" class="pill" fill="#1A7F64">BUILT</text>
+
+  <!-- Legend -->
+  <rect x="34" y="640" width="26" height="16" rx="4" class="built"/><text x="68" y="652" class="ll">built</text>
+  <rect x="120" y="640" width="26" height="16" rx="4" class="planned"/><text x="154" y="652" class="ll">planned</text>
+  <rect x="224" y="640" width="26" height="16" rx="4" class="io"/><text x="258" y="652" class="ll">input / output</text>
+  <text x="1176" y="652" class="ll" text-anchor="end">Local model only (Ollama) · no paid APIs · nothing is sent or paid on the patient's behalf</text>
+</svg>
